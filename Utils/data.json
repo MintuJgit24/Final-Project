@@ -1,0 +1,16 @@
+{
+    "userName": "Micky Roger",
+    "password": "009988",
+    "InvalidUserName": "TestUser",
+    "InvalidPassword": "091876",
+    "product": "Sony vaio i7",
+    "phone":"Iphone 6 32gb",
+    "monitor":"Apple monitor 24",
+    "orderName":"Kavya",
+    "orderCntry":"India",
+    "orderCity":"Chennai",
+    "orderCreditCardNo":"ABCD123890765",
+    "orderMnth":"Feb",
+    "orderYear":"2025"
+}
+    
