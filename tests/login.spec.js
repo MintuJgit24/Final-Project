@@ -12,10 +12,9 @@ test('Login',async({page})=>{
     await lp.VerifyLoginWithValidCredentialsAndLogout(testData.userName,testData.password);
     await lp.VerifyLoginWithValidCredentials(testData.userName, testData.password);
     await lp.VerifyLogoutAfterLogin();
-    await lp.handleDialogBox();
+    //await page.pause();
     await lp.VerifyLoginWithInvalidUserNameAndValidPassword(testData.InvalidUserName, testData.password);
     await lp.VerifyLoginWithValidUserNameAndInvalidPassword(testData.userName, testData.InvalidPassword);
     await lp.VerifyLoginWithInvalidUserNameAndInvalidPassword(testData.InvalidUserName, testData.InvalidPassword);
-    await page.waitForTimeout(3000);
     
 })

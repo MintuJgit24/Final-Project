@@ -18,21 +18,22 @@ export class loginPage {
         await expect(this.loginModal).toBeVisible();
     }
 
-     async VerifyLoginWithValidCredentials(uName, pswd) {
+    async VerifyLoginWithValidCredentials(uName, pswd) {
         await this.NavigateToLoginLink();
         await this.userName.fill(uName);
         await this.password.fill(pswd);
+        await expect(this.loginBtn).toBeEnabled();
         await this.loginBtn.click();
-        await this.VerifyWelcomeMessageAfterLogin();
+        await this.VerifyWelcomeAlongWithUserNameAfterLogin();
         //await this.VerifyLogoutAfterLogin();
     }
 
     async VerifyLoginWithValidCredentialsAndLogout(uName, pswd) {
-        await this.VerifyLoginWithValidCredentials(uName,pswd);
+        await this.VerifyLoginWithValidCredentials(uName, pswd);
         await this.VerifyLogoutAfterLogin();
     }
 
-    async VerifyWelcomeMessageAfterLogin() {
+    async VerifyWelcomeAlongWithUserNameAfterLogin() {
         await expect(this.welcomeLink).toContainText("Welcome");
     }
 
@@ -45,31 +46,37 @@ export class loginPage {
         await this.NavigateToLoginLink();
         await this.userName.fill(InvalidUserName);
         await this.password.fill(pswd);
-        await this.loginBtn.click();
-        await this.closeBtn.first().click();
+        await this.handleDialogBox();
     }
 
     async VerifyLoginWithValidUserNameAndInvalidPassword(uName, InvalidPassword) {
         await this.NavigateToLoginLink();
         await this.userName.fill(uName);
         await this.password.fill(InvalidPassword);
-        await this.loginBtn.click();
-        await this.closeBtn.first().click();
+        await this.handleDialogBox();
     }
 
     async VerifyLoginWithInvalidUserNameAndInvalidPassword(InvalidUserName, InvalidPassword) {
         await this.NavigateToLoginLink();
         await this.userName.fill(InvalidUserName);
         await this.password.fill(InvalidPassword);
-        await this.loginBtn.click();
-        await this.closeBtn.first().click();
+        await this.handleDialogBox();
     }
 
     async handleDialogBox() {
-        this.page.on('dialog', async (dialogBox) => {
-            await this.page.waitForTimeout(3000);
-            console.log(dialogBox.message());
-            await dialogBox.accept();
-        })
+        // Wait for JavaScript alert
+        const dialogPromise = this.page.waitForEvent('dialog');
+        await this.loginBtn.click();
+        // Capture dialog
+        const dialog = await dialogPromise;
+        // Verify alert message
+        expect(dialog.message()).toBe("Wrong password.");
+        console.log(dialog.message());
+        // Accept alert
+        await dialog.accept();
+        // Verify login modal is still visible
+        await expect(this.loginModal).toBeVisible();
+        await expect(this.welcomeLink).not.toBeVisible();
+        await this.closeBtn.first().click();
     }
 }

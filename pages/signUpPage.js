@@ -25,12 +25,18 @@ export class signUpPage {
     }
     async navigateToSignUp(userName, password) {
         await this.navigateToSignUpAndFillUserDetails(userName, password);
+        await expect(this.signupBtn).toBeEnabled();
+        const dialogPromise = this.page.waitForEvent('dialog');
         await this.signupBtn.click();
+        const dialog = await dialogPromise;
+        expect(dialog.message()).toBe("Sign up successful.");
+        console.log(dialog.message());
+        await dialog.accept();
     }
 
     async handleDialogBox() {
         this.page.on('dialog', async (dialogBox) => {
-            await this.page.waitForTimeout(3000);
+            await page.waitForTimeout(3000);
             console.log(dialogBox.message());
             await dialogBox.accept();
         })

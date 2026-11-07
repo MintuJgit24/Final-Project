@@ -10,7 +10,5 @@ test('Sign Up', async ({ page }) => {
     await sp.navigateToStorePage();
     await sp.navigateToSignUpAndClose(`${testData.userName}${Date.now()}`, testData.password);
     await sp.navigateToSignUp(`${testData.userName}${Date.now()}`, testData.password);
-    await sp.handleDialogBox();
-    await page.waitForTimeout(3000);
     
 })
