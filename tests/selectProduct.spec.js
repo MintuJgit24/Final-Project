@@ -9,7 +9,6 @@ test('select a product', async ({ page }) => {
     const sp = await pom.getSignUpPage();
     await sp.navigateToStorePage();
     const lp = await pom.getLoginPage();
-    await page.pause();
     await lp.VerifyLoginWithValidCredentials(testData.userName, testData.password);
     const pp = await pom.getProductPage();
     await pp.selectProduct(testData.product);

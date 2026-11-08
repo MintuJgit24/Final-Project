@@ -1,3 +1,5 @@
+import { expect } from "@playwright/test";
+
 export class productPage {
     constructor(page) {
         this.productTitle = page.locator(".hrefch");
@@ -12,6 +14,7 @@ export class productPage {
         const productList = await this.prodList.allTextContents();
         console.log("product list: ", productList);
         const selectItem = await this.prodList.filter({ hasText: product });
+        await expect(selectItem.first()).toBeVisible();
         /*
         for (let i = 0; i < prodCount; i++) {
             if (await this.prodList.nth(i).textContent() == product) {
@@ -33,8 +36,10 @@ export class productPage {
         await selectItem.first().click();
         // Handle dialog before clicking Add to Cart
         const dialogPromise = this.page.waitForEvent('dialog');
+        await expect(this.addToCartBtn).toBeEnabled();
         await this.addToCartBtn.click();
         const dialog = await dialogPromise;
+        expect(dialog.message()).toBe("Product added.");
         console.log(dialog.message());
         await dialog.accept();
 
