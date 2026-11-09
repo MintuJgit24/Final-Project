@@ -58,7 +58,6 @@ export class productPage {
 
     async handleDialogBox() {
         this.page.on('dialog', async (dialogBox) => {
-            //await this.page.waitForTimeout(3000);
             console.log(dialogBox.message());
             await dialogBox.accept();
         })
