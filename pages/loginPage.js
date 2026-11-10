@@ -14,8 +14,9 @@ export class loginPage {
     }
 
     async NavigateToLoginLink() {
+        await this.loginLink.waitFor({ state: 'visible' });
         await this.loginLink.click();
-        await expect(this.loginModal).toBeVisible();
+        await expect(this.loginModal).toBeVisible({ timeout: 10000 });
     }
 
     async VerifyLoginWithValidCredentials(uName, pswd) {
